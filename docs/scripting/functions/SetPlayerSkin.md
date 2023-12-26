@@ -1,34 +1,34 @@
 ---
 title: SetPlayerSkin
-description: Set the skin of a player.
+description: Seta Skin no playerid.
 tags: ["player"]
 ---
 
-## Description
+## Descriçao
 
-Set the skin of a player. A player's skin is their character model.
+Seta a Skin no Player. A skin de um jogador é o modelo de seu personagem.
 
-| Name     | Description                                              |
+| Noame     | Descricao                                              |
 | -------- | -------------------------------------------------------- |
-| playerid | The ID of the player to set the skin of.                 |
-| skinid   | The [skin](../resources/skins) the player should use. |
+| playerid | O ID do jogador cujo skin será definido.                 |
+| skinid   | A [skin](../resources/skins) o jogador deve usar. |
 
 ## Returns
 
-1: The function executed successfully.
+1: A funçao executada com Sucesso!
 
-0: The function failed to execute. This means the player specified does not exist.
+0: A função não foi executada. Isso significa que o Jogador especificado não existe.
 
-Note that 'success' is reported even when skin ID is invalid (not 0-311, or 74), but the skin will be set to ID 0 (CJ).
+Observe que o 'sucesso' é relatado mesmo quando o ID do skin é inválido (não 0-311 ou 74), mas o skin será definido como ID 0 (CJ).
 
-## Examples
+## Exemplos
 
 ```c
 public OnPlayerCommandText(playerid, cmdtext[])
 {
-    if (strcmp(cmdtext, "/fireman", true) == 0)
+    if (strcmp(cmdtext, "/bombeiro", true) == 0)
     {
-        // Set the player's skin to ID 277, which is a fireman.
+        // Defina a skin do jogador para ID 277, que é um bombeiro.
         SetPlayerSkin(playerid, 277);
         return 1;
     }
@@ -50,7 +50,7 @@ SetPlayerSkinFix(playerid, skinid)
     GetPlayerPos(playerid, tmpPos[0], tmpPos[1], tmpPos[2]);
     GetPlayerFacingAngle(playerid, tmpPos[3]);
 
-    // If the skinid is invalid, less than 0 or more than 311 or is equal to 74 (invalid skin), then do nothing
+    // Se o skin ID for inválido, menor que 0 ou maior que 311 ou igual a 74 (skin inválido), então não faz nada
     if (0 > skinid > 311 || skinid == 74)
     {
         return 0;
@@ -60,7 +60,7 @@ SetPlayerSkinFix(playerid, skinid)
     {
         SetPlayerPos(playerid, tmpPos[0], tmpPos[1], tmpPos[2]);
         SetPlayerFacingAngle(playerid, tmpPos[3]);
-        TogglePlayerControllable(playerid, true); // preventing any freeze - optional
+        TogglePlayerControllable(playerid, true); // evitando qualquer congelamento - (opcional)
         return SetPlayerSkin(playerid, skinid);
     }
     else if (IsPlayerInAnyVehicle(playerid))
@@ -71,7 +71,7 @@ SetPlayerSkinFix(playerid, skinid)
         RemovePlayerFromVehicle(playerid);
         SetPlayerPos(playerid, tmpPos[0], tmpPos[1], tmpPos[2]);
         SetPlayerFacingAngle(playerid, tmpPos[3]);
-        TogglePlayerControllable(playerid, true); // preventing any freeze - important! because of doing animations of exiting vehicle
+        TogglePlayerControllable(playerid, true); // evitando qualquer congelamento - importante! por causa de fazer animações de saída do veículo
         tmp = SetPlayerSkin(playerid, skinid);
         PutPlayerInVehicle(playerid, vehicleid, (seatid == 128) ? 0 : seatid);
         return tmp;
@@ -83,15 +83,15 @@ SetPlayerSkinFix(playerid, skinid)
 }
 ```
 
-## Notes
+## Notas
 
-:::warning
+:::aviso
 
-Known Bug(s): If a player's skin is set when they are crouching, in a vehicle, or performing certain animations, they will become frozen or otherwise glitched. This can be fixed by using TogglePlayerControllable. Players can be detected as being crouched through GetPlayerSpecialAction (SPECIAL_ACTION_DUCK). Other players around the player may crash if he is in a vehicle or if he is entering/leaving a vehicle. Setting a player's skin when he is dead may crash players around him. Breaks sitting on bikes.
+Bug(s) conhecido(s): Se a skin de um jogador for definida quando ele estiver agachado, em um veículo ou executando certas animações, ele ficará congelado ou apresentará falhas. Isso pode ser corrigido usando TogglePlayerControllable. Os jogadores podem ser detectados como agachados através de GetPlayerSpecialAction (SPECIAL_ACTION_DUCK). Outros jogadores ao redor do jogador podem bater se ele estiver em um veículo ou se estiver entrando/saindo de um veículo. Definir a pele de um jogador quando ele está morto pode derrubar os jogadores ao seu redor. Pausas sentadas em bicicletas.
 
 :::
 
-## Related Functions
+## =Funções Relacionadas
 
-- [GetPlayerSkin](GetPlayerSkin): Get a player's current skin.
-- [SetSpawnInfo](SetSpawnInfo): Set the spawn setting for a player.
+- [GetPlayerSkin](GetPlayerSkin): Getar a Skin Do Player
+- [SetSpawnInfo](SetSpawnInfo): Defina a configuração de spawn para um jogador.
